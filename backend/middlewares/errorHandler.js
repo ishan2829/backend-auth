@@ -1,5 +1,6 @@
 import joi from 'joi';
 import AppError from '../AppError/index.js';
+import jwt from 'jsonwebtoken';
 
 const errorConfigs = [
   {
@@ -11,6 +12,11 @@ const errorConfigs = [
     class: joi.ValidationError,
     getMessage: (error) => error.message,
     statusCode: () => 400,
+  },
+  {
+    class: jwt.TokenExpiredError,
+    getMessage: (error) => error.message,
+    statusCode: () => 401,
   },
 ];
 
