@@ -89,8 +89,8 @@ router.post('/login', validateReqBody(loginSchema), async (req, res, next) => {
       },
     });
 
-    res.cookie('CSRF-TOKEN', csrfToken, { sameSite: true });
-    res.cookie('JWT-TOKEN', jwtToken, { httpOnly: true, sameSite: true });
+    res.cookie('CSRF-TOKEN', csrfToken, { sameSite: true, secure: true, maxAge: 3600 * 1000 });
+    res.cookie('JWT-TOKEN', jwtToken, { httpOnly: true, sameSite: true, secure: true, maxAge: 3600 * 1000 });
 
     return res.send({
       success: true,
