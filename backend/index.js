@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import userRoutes from './routes/user.js';
 import errorHandler from './middlewares/errorHandler.js';
 import path from 'path';
+import fs from 'fs';
 
 dotenv.config();
 
@@ -27,5 +28,6 @@ if (process.env.ENVIRONMENT === 'production')
   });
 
 app.listen(process.env.PORT || 3000, () => {
+  console.log(fs.readdirSync(path.join(__dirname, '..', 'frontend/dist')));
   console.log('listening on port: ', process.env.PORT || 3000);
 });
