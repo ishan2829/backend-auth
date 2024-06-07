@@ -7,6 +7,7 @@ import constants from '../Constants/index.js';
 import prisma from '../prisma/index.js';
 import crypto from 'crypto';
 import checkAuth from '../middlewares/checkAuth.js';
+import AppError from '../AppError/index.js';
 
 const router = Router();
 
