@@ -90,7 +90,12 @@ router.post('/login', validateReqBody(loginSchema), async (req, res, next) => {
     });
 
     res.cookie('CSRF-TOKEN', csrfToken, { sameSite: true, secure: true, maxAge: 3600 * 1000 });
-    res.cookie('JWT-TOKEN', jwtToken, { httpOnly: true, sameSite: true, secure: true, maxAge: 3600 * 1000 });
+    res.cookie('JWT-TOKEN', jwtToken, {
+      httpOnly: true,
+      sameSite: true,
+      secure: true,
+      maxAge: 3600 * 1000,
+    });
 
     return res.send({
       success: true,
@@ -106,6 +111,26 @@ router.get('/dashboard', checkAuth, (req, res, next) => {
     name: req.user.name,
     email: req.user.email,
   });
+});
+
+router.post('/logout', checkAuth, async (req, res, next) => {
+  try {
+    await prisma.session.delete({
+      where: {
+        userId: req.user.id,
+      },
+    });
+
+    res.clearCookie('CSRF-TOKEN');
+    res.clearCookie('JWT-TOKEN');
+
+    return res.send({
+      success: true,
+      message: 'Logout successful',
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 
 export default router;
