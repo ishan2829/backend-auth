@@ -8,6 +8,7 @@ import prisma from '../prisma/index.js';
 import crypto from 'crypto';
 import checkAuth from '../middlewares/checkAuth.js';
 import AppError from '../AppError/index.js';
+import { encode } from 'html-entities';
 
 const router = Router();
 
@@ -41,7 +42,7 @@ router.post('/register', validateReqBody(registerUserSchema), async (req, res, n
 
     return res.status(201).send({
       success: true,
-      message: `User with id: ${newUser.id} has been successfully created`,
+      message: encode(`User with id: ${newUser.id} has been successfully created`),
     });
   } catch (error) {
     return next(error);
@@ -108,8 +109,8 @@ router.post('/login', validateReqBody(loginSchema), async (req, res, next) => {
 
 router.get('/dashboard', checkAuth, (req, res, next) => {
   return res.send({
-    name: req.user.name,
-    email: req.user.email,
+    name: encode(req.user.name),
+    email: encode(req.user.email),
   });
 });
 
