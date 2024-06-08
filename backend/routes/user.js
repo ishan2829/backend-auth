@@ -13,9 +13,9 @@ import { encode } from 'html-entities';
 const router = Router();
 
 const registerUserSchema = Joi.object({
-  name: Joi.string().htmlStrip().required(),
-  email: Joi.string().email().htmlStrip().required(),
-  password: Joi.string().htmlStrip().required(),
+  name: Joi.string().htmlStrip().required().min(3).max(20),
+  email: Joi.string().email().htmlStrip().required().min(3).max(20),
+  password: Joi.string().htmlStrip().required().min(8).max(20),
 });
 
 router.post('/register', validateReqBody(registerUserSchema), async (req, res, next) => {
@@ -50,8 +50,8 @@ router.post('/register', validateReqBody(registerUserSchema), async (req, res, n
 });
 
 const loginSchema = Joi.object({
-  email: Joi.string().htmlStrip().email().required(),
-  password: Joi.string().htmlStrip().required(),
+  email: Joi.string().htmlStrip().email().required().min(3).max(20),
+  password: Joi.string().htmlStrip().required().min(8).max(20),
 });
 
 router.post('/login', validateReqBody(loginSchema), async (req, res, next) => {
