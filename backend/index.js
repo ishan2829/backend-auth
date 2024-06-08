@@ -4,10 +4,13 @@ import cookieParser from 'cookie-parser';
 import userRoutes from './routes/user.js';
 import errorHandler from './middlewares/errorHandler.js';
 import path from 'path';
+import helmet from 'helmet';
+import constants from './Constants/index.js';
 
 dotenv.config();
 
 const app = express();
+app.use(helmet(constants.helmetOptions));
 
 const __dirname = path.resolve();
 
@@ -26,9 +29,6 @@ if (process.env.ENVIRONMENT === 'production')
     res.sendFile(path.join(__dirname, '..', 'frontend/dist', 'index.html'));
   });
 
-
-
 app.listen(process.env.PORT || 3000, () => {
   console.log('listening on port: ', process.env.PORT || 3000);
 });
-
