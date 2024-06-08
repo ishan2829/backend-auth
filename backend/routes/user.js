@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import Router from 'express';
-import Joi from 'joi';
+import Joi from '../CustomJoi/index.js';
 import jwt from 'jsonwebtoken';
 import validateReqBody from '../middlewares/validateReqBody.js';
 import constants from '../Constants/index.js';
@@ -12,9 +12,9 @@ import AppError from '../AppError/index.js';
 const router = Router();
 
 const registerUserSchema = Joi.object({
-  name: Joi.string().required(),
-  email: Joi.string().email().required(),
-  password: Joi.string().required(),
+  name: Joi.string().htmlStrip().required(),
+  email: Joi.string().email().htmlStrip().required(),
+  password: Joi.string().htmlStrip().required(),
 });
 
 router.post('/register', validateReqBody(registerUserSchema), async (req, res, next) => {
@@ -49,8 +49,8 @@ router.post('/register', validateReqBody(registerUserSchema), async (req, res, n
 });
 
 const loginSchema = Joi.object({
-  email: Joi.string().email().required(),
-  password: Joi.string().required(),
+  email: Joi.string().htmlStrip().email().required(),
+  password: Joi.string().htmlStrip().required(),
 });
 
 router.post('/login', validateReqBody(loginSchema), async (req, res, next) => {
