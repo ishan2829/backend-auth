@@ -57,6 +57,7 @@ The system only allows one session per user. If a user is logged in on one brows
 ![Content Security Policy](https://github.com/ishan2829/backend-auth/assets/169195981/0dc060a4-fb46-4683-a243-36a41016aee5)
 
 - The `html-entities` library is utilized to encode user-generated content before sending it to the frontend.
+- `X-Content-Type-Options` is set to `nosniff` via helmet library. Browsers sometimes try to be helpful and guess the content type of a resource. This process is called MIME sniffing. However, this feature can be exploited by attackers to execute malicious code. The `X-Content-Type-Options: nosniff` header instructs the browser not to perform MIME sniffing on the response content. Instead, it must strictly adhere to the content type specified by the server in the Content-Type header. By preventing MIME sniffing, this header helps protect against certain types of attacks, such as cross-site scripting (XSS) attacks, where an attacker could disguise malicious code as a different content type (e.g., JavaScript disguised as an image) to bypass security mechanisms.
 
 ## CSRF Protection
 
